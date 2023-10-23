@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .numbers {
+            display: inline-block;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            background-color: lightgray;
+            cursor: pointer;
+        }
+
+        .actions {
+            display: inline-block;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            background-color: darkgray;
+            cursor: pointer;
+        }
+
+        .actions.equal {
+            display: inline-block;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            background-color: red;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <!-- Display Result -->
+        <input placeholder="Enter your number" id="result" type="text" value="0" readonly>
+        <br>
+        <!-- Number Buttons -->
+        <span class="numbers">1</span>
+        <span class="numbers">2</span>
+        <span class="numbers">3</span>
+        <span class="numbers">4</span>
+        <span class="numbers">5</span>
+        <span class="numbers">6</span>
+        <span class="numbers">7</span>
+        <span class="numbers">8</span>
+        <span class="numbers">9</span>
+        <span class="numbers">0</span>
+        <br>
+        <!-- Action Buttons -->
+        <span class="actions">C</span>
+        <span class="actions">+</span>
+        <span class="actions">-</span>
+        <span class="actions">/</span>
+        <span class="actions">*</span>
+        <span class="actions equal">=</span>
+    </div>
+
+
+    <script>
+        // Global Variables
+        var number = 0;
+        var total = 0;
+        var input = document.getElementById('result')
+        var data = []
+
+        // Event listener for number buttons
+        var numbers = document.querySelectorAll('.numbers').forEach(function (value, index) {
+            value.addEventListener('click', function () {
+                if (number === '') {
+                    input.value = ''
+                }
+                number += value.innerText
+                input.value = parseFloat(number);
+            })
+        })
+
+        // Event listener for action buttons
+        var actions = document.querySelectorAll('.actions').forEach(function (value, index) {
+            value.addEventListener('click', function () {
+                switch (value.innerText) {
+                    case 'C':
+                        calc_clear()
+                        break;
+                    case '+':
+                        calc_add()
+                        break;
+                    case '-':
+                        calc_min()
+                        break;
+                    case '*':
+                        calc_multi()
+                        break;
+                    case '/':
+                        calc_div()
+                        break;
+                    case '=':
+                        calc_sum()
+                        break;
+                }
+            })
+        })
+
+        // Calculator functions
+        function calc_clear() {
+            number = ''
+            input.value = 0;
+        }
+
+        function calc_add() {
+            if (data.length > 2) {
+                data[0] = data[0] + data[2]
+                data.splice(1, 2)
+            }
+            if (data.length == 1) {
+                data[0] = parseFloat(input.value)
+                data[1] = '+'
+                console.log(data)
+            } else {
+                data.push(parseFloat(input.value), '+')
+            }
+            number = ''
+            input.value = data[0]
+        }
+
+        function calc_min() {
+            if (data.length > 2) {
+                data[0] = data[0] - data[2]
+                data.splice(1, 2)
+            }
+            if (data.length == 1) {
+                data[0] = parseFloat(input.value)
+                data[1] = '-'
+                console.log(data)
+            } else {
+                data.push(parseFloat(input.value), '-')
+            }
+            number = ''
+            input.value = data[0]
+        }
+
+        function calc_multi() {
+            if (data.length > 2) {
+                data[0] = data[0] * data[2]
+                data.splice(1, 2)
+            }
+            if (data.length == 1) {
+                data[0] = parseFloat(input.value)
+                data[1] = '*'
+                console.log(data)
+            } else {
+                data.push(parseFloat(input.value), '*')
+            }
+            number = ''
+            input.value = data[0]
+        }
+
+        function calc_div() {
+            if (data.length > 2) {
+                data[0] = data[0] / data[2]
+                data.splice(1, 2)
+            }
+            if (data.length == 1) {
+                data[0] = parseFloat(input.value)
+                data[1] = '/'
+            } else {
+                data.push(parseFloat(input.value), '/')
+            }
+            number = ''
+            input.value = data[0]
+        }
+
+        function calc_sum() {
+            var sum = eval(data[0] + data[1] + input.value);
+            number = ''
+            data[0] = sum
+            data.pop()
+            input.value = sum
+        }
+    </script>
+</body>
+
+</html>
